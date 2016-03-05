@@ -1,4 +1,4 @@
-package main
+package h2m
 
 type MMConfig struct {
 	WebhookUrl       string

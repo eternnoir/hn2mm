@@ -1,0 +1,4 @@
+WebhookUrl = ""
+Channel = ""
+Username = ""
+CheckNewInterval = 5

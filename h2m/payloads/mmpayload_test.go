@@ -1,7 +1,6 @@
 package payloads
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
@@ -16,7 +15,6 @@ func TestToJson(t *testing.T) {
 		asst.Fail("ToJson Fail.")
 	}
 	jsonStr := string(blob[:])
-	fmt.Println(jsonStr)
 	asst.False(strings.Contains(jsonStr, "channel"))
 	asst.True(strings.Contains(jsonStr, "text"))
 }
