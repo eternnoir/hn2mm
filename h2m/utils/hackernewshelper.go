@@ -33,8 +33,6 @@ func GetTopStories() ([]int64, error) {
 		log.Errorf("Get Tos Stories dejson fail. %s", err)
 		return nil, err
 	}
-	log.Infof("Get %d stories", len(storyids))
-
 	return storyids, nil
 }
 

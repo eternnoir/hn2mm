@@ -1,4 +1,5 @@
 WebhookUrl = ""
 Channel = ""
 Username = ""
-CheckNewInterval = 5m
+CheckNewInterval = "5m"
+DbString = "/tmp/sqlite3.db"

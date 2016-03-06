@@ -11,6 +11,7 @@ import (
 func main() {
 	configPtr := flag.String("c", "config.toml", "Config file path.")
 	flag.Parse()
+	log.SetLevel(log.DebugLevel)
 	if len(*configPtr) < 1 {
 		log.Error("Config file path must set.Use -h to get some help.")
 	}
@@ -21,9 +22,10 @@ func main() {
 		return
 	}
 	fmt.Printf("%#v \n", config)
-	_, err := h2m.NewH2mByConfig(&config)
+	h2m, err := h2m.NewH2mByConfig(&config)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+	h2m.Start()
 }

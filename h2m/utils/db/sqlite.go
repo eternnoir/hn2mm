@@ -5,11 +5,42 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type SqliteDao struct {
-	DbPath string
+type SqliteChecker struct {
+	DbPath             string
+	postedSotriesCache []int64
 }
 
-func (dao *SqliteDao) IsNewSotry(id int64) (bool, error) {
+func NewSqliteChecker(dbpath string) (*SqliteChecker, error) {
+	checker := &SqliteChecker{DbPath: dbpath, postedSotriesCache: []int64{}}
+	return checker, nil
+}
+
+func (dao *SqliteChecker) IsNewSotry(id int64) (bool, error) {
+	if dao.isInCache(id) {
+		return false, nil
+	}
+	result, err := dao.isInDb(id)
+	if err != nil {
+		return false, err
+	}
+	if result {
+		dao.AddIdToCache(id)
+		return false, nil
+	} else {
+		return true, nil
+	}
+}
+
+func (dao *SqliteChecker) isInCache(id int64) bool {
+	for _, cacheid := range dao.postedSotriesCache {
+		if cacheid == id {
+			return true
+		}
+	}
+	return false
+}
+
+func (dao *SqliteChecker) isInDb(id int64) (bool, error) {
 	db, err := sql.Open("sqlite3", dao.DbPath)
 	if err != nil {
 		return false, err
@@ -21,13 +52,17 @@ func (dao *SqliteDao) IsNewSotry(id int64) (bool, error) {
 	}
 	defer rows.Close()
 	if rows.Next() {
-		return false, nil
-	} else {
 		return true, nil
+	} else {
+		return false, nil
 	}
 }
 
-func (dao *SqliteDao) AddPostedStory(id int64) error {
+func (dao *SqliteChecker) AddIdToCache(id int64) {
+	dao.postedSotriesCache = append(dao.postedSotriesCache, id)
+}
+
+func (dao *SqliteChecker) AddPostedStory(id int64) error {
 	db, err := sql.Open("sqlite3", dao.DbPath)
 	if err != nil {
 		return err

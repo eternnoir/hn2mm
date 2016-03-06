@@ -15,7 +15,7 @@ func TestCheckStoryId(t *testing.T) {
 	asst := assert.New(t)
 	CreateSqliteDb()
 	CreateTable()
-	dao := &SqliteDao{DbPath: dbpath}
+	dao := &SqliteChecker{DbPath: dbpath}
 	err := dao.AddPostedStory(int64(999))
 	if err != nil {
 		asst.Fail(fmt.Sprint(err))
