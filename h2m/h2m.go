@@ -2,11 +2,12 @@ package h2m
 
 import (
 	"errors"
+	"time"
 )
 
 type H2m struct {
 	targets  []*TargetChannel
-	Interval int
+	Interval time.Duration
 }
 
 type TargetChannel struct {
@@ -26,7 +27,7 @@ func NewH2mByConfig(config *MMConfig) (*H2m, error) {
 	return NewH2m([]*TargetChannel{target}, config.CheckNewInterval)
 }
 
-func NewH2m(targets []*TargetChannel, interval int) (*H2m, error) {
+func NewH2m(targets []*TargetChannel, interval time.Duration) (*H2m, error) {
 	if len(targets) < 1 {
 		return nil, errors.New("Target channel cannot be empty.")
 	}

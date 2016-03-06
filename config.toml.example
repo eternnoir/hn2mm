@@ -1,4 +1,4 @@
 WebhookUrl = ""
 Channel = ""
 Username = ""
-CheckNewInterval = 5
+CheckNewInterval = 5m
