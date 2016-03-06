@@ -10,8 +10,13 @@ import (
 
 func main() {
 	configPtr := flag.String("c", "config.toml", "Config file path.")
+	debugPtr := flag.Bool("d", false, "Enable Debug level.")
 	flag.Parse()
-	log.SetLevel(log.DebugLevel)
+
+	if *debugPtr {
+		log.Info("Enable debug level.")
+		log.SetLevel(log.DebugLevel)
+	}
 	if len(*configPtr) < 1 {
 		log.Error("Config file path must set.Use -h to get some help.")
 	}
